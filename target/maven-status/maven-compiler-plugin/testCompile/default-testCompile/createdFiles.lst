@@ -1,0 +1,4 @@
+com\documind\pipeline\ai\GroqAiClientTest.class
+com\documind\pipeline\api\ContractControllerTest.class
+com\documind\pipeline\worker\ContractProcessingConsumerTest.class
+com\documind\pipeline\service\DocumentStorageServiceTest.class

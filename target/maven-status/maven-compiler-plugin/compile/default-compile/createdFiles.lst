@@ -1,0 +1,16 @@
+com\documind\pipeline\domain\ContractProcessingEvent.class
+com\documind\pipeline\ai\GroqAiClient.class
+com\documind\pipeline\domain\ContractStatus.class
+com\documind\pipeline\domain\ContractRepository.class
+com\documind\pipeline\worker\ContractProcessingConsumer.class
+com\documind\pipeline\service\PdfExtractionService.class
+com\documind\pipeline\DocuMindApplication.class
+com\documind\pipeline\domain\Contract.class
+com\documind\pipeline\service\DocumentStorageService.class
+com\documind\pipeline\config\S3Config.class
+com\documind\pipeline\worker\ContractKafkaProducer.class
+com\documind\pipeline\domain\ContractProcessingEvent$ContractProcessingEventBuilder.class
+com\documind\pipeline\worker\AlertKafkaProducer.class
+com\documind\pipeline\domain\Contract$ContractBuilder.class
+com\documind\pipeline\api\ContractController.class
+com\documind\pipeline\worker\AlertConsumer.class

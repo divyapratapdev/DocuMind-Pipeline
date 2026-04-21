@@ -1,0 +1,63 @@
+services:
+  # ----------------------------------------------------
+  # Spring Boot Backend Web Service
+  # ----------------------------------------------------
+  - type: web
+    name: documind-ai-pipeline
+    env: docker
+    region: ohio
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: documind-postgres
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: documind-postgres
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: documind-postgres
+          property: password
+      - key: SPRING_REDIS_HOST
+        fromService:
+          name: documind-redis
+          type: redis
+          property: host
+      - key: SPRING_REDIS_PORT
+        fromService:
+          name: documind-redis
+          type: redis
+          property: port
+      # -----------------------------------------------
+      # EXTERNAL SERVICES (Fill these in the dashboard)
+      # -----------------------------------------------
+      - key: GROQ_API_KEY
+        sync: false
+      - key: AWS_S3_ENDPOINT
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: SPRING_KAFKA_BOOTSTRAP_SERVERS
+        sync: false
+
+databases:
+  # ----------------------------------------------------
+  # PostgreSQL (JSONB DB)
+  # ----------------------------------------------------
+  - name: documind-postgres
+    region: ohio
+    plan: free
+    databaseName: documind
+    user: admin
+
+  # ----------------------------------------------------
+  # Redis Cache
+  # ----------------------------------------------------
+  - name: documind-redis
+    region: ohio
+    plan: free
