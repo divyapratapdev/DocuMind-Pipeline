@@ -11,6 +11,7 @@ com\documind\pipeline\service\PdfExtractionService.class
 com\documind\pipeline\DocuMindApplication.class
 com\documind\pipeline\domain\Contract.class
 com\documind\pipeline\service\DocumentStorageService.class
+com\documind\pipeline\config\S3Config.class
 com\documind\pipeline\config\RedisConfig$ProcessingMessageDelegate.class
 com\documind\pipeline\worker\KafkaMessageBroker.class
 com\documind\pipeline\domain\ContractProcessingEvent$ContractProcessingEventBuilder.class
