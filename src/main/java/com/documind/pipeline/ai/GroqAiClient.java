@@ -15,7 +15,6 @@ import java.util.Map;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class GroqAiClient {
 
     @Value("${groq.api.url}")
