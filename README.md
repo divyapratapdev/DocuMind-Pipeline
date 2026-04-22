@@ -3,7 +3,7 @@
 Welcome to the DocuMind Enterprise Engine. This repository showcases a top 1%, highly scalable, event-driven B2B data pipeline capable of ingesting massive unstructured contract PDFs, utilizing LLM-based autonomous extraction, and routing JSON arrays into NoSQL-style Postgres columns in real-time.
 
 ## System Architecture Highlights
-* **Kafka KRaft Broker**: Asynchronous, highly decoupled worker nodes bypass HTTP thread-blocking issues naturally found in Spring Boot.
+* **Adaptive Dual-Broker Messaging**: An enterprise decoupling pattern utilizing Spring `@ConditionalOnProperty`. Defaults to **Apache Kafka** locally to prove enterprise-scale event streaming, but seamlessly switches to **Redis Pub/Sub** upon deployment to eliminate Cloud Kafka hosting costs (100% free cloud deployment).
 * **MinIO Object Storage**: Native AWS S3 SDK integration for 100% cloud-ready BLOB storage, bypassing archaic local-disk mechanisms.
 * **Llama-3 Groq Pipeline**: Hard-enforced JSON extraction acting over chunked Apache PDFBox outputs.
 * **PostgreSQL GIN JSONB**: Using `io.hypersistence` / Native Hibernate 6 to sink the AI's dynamic schema logic straight into relational tables, indexable in milliseconds.

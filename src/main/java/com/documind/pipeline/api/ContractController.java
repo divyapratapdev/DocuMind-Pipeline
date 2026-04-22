@@ -5,7 +5,7 @@ import com.documind.pipeline.domain.ContractProcessingEvent;
 import com.documind.pipeline.domain.ContractRepository;
 import com.documind.pipeline.domain.ContractStatus;
 import com.documind.pipeline.service.DocumentStorageService;
-import com.documind.pipeline.worker.ContractKafkaProducer;
+import com.documind.pipeline.worker.MessageBroker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class ContractController {
 
     private final ContractRepository contractRepository;
     private final DocumentStorageService documentStorageService;
-    private final ContractKafkaProducer kafkaProducer;
+    private final MessageBroker messageBroker;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadContract(
@@ -56,7 +56,7 @@ public class ContractController {
                 .s3ObjectKey(s3Key)
                 .build();
 
-        kafkaProducer.sendProcessingEvent(event);
+        messageBroker.sendProcessingEvent(event);
 
         // 4. Return 202 Accepted meaning: I got it, go do whatever else. Check back later.
         log.info("Dispatched async processing event. Return 202. ID: {}", initialContract.getId());

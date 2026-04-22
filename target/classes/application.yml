@@ -27,7 +27,11 @@ spring:
 
   # Kafka
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    properties:
+      security.protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+      sasl.mechanism: ${KAFKA_SASL_MECHANISM:}
+      sasl.jaas.config: ${KAFKA_SASL_JAAS_CONFIG:}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -37,14 +41,14 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
-# AWS S3 (MinIO)
+# AWS S3 (Cloudflare R2 / MinIO)
 aws:
   s3:
-    endpoint: http://localhost:9000
-    access-key: admin
-    secret-key: password123
-    bucket-name: contracts-bucket
-    region: us-east-1
+    endpoint: ${AWS_S3_ENDPOINT:http://localhost:9000}
+    access-key: ${AWS_ACCESS_KEY_ID:admin}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:password123}
+    bucket-name: ${AWS_BUCKET_NAME:contracts-bucket}
+    region: ${AWS_REGION:auto}
 
 # Groq Config
 groq:

@@ -31,6 +31,8 @@ services:
           name: documind-redis
           type: redis
           property: port
+      - key: MESSAGING_BROKER
+        value: redis
       # -----------------------------------------------
       # EXTERNAL SERVICES (Fill these in the dashboard)
       # -----------------------------------------------

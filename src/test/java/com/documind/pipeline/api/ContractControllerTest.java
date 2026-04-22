@@ -5,7 +5,7 @@ import com.documind.pipeline.domain.ContractProcessingEvent;
 import com.documind.pipeline.domain.ContractRepository;
 import com.documind.pipeline.domain.ContractStatus;
 import com.documind.pipeline.service.DocumentStorageService;
-import com.documind.pipeline.worker.ContractKafkaProducer;
+import com.documind.pipeline.worker.MessageBroker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -32,7 +32,7 @@ class ContractControllerTest {
     private DocumentStorageService documentStorageService;
 
     @Mock
-    private ContractKafkaProducer kafkaProducer;
+    private MessageBroker messageBroker;
 
     @InjectMocks
     private ContractController contractController;
@@ -73,7 +73,7 @@ class ContractControllerTest {
         
         // Verify Kafka event pushed correctly
         ArgumentCaptor<ContractProcessingEvent> eventCaptor = ArgumentCaptor.forClass(ContractProcessingEvent.class);
-        verify(kafkaProducer, times(1)).sendProcessingEvent(eventCaptor.capture());
+        verify(messageBroker, times(1)).sendProcessingEvent(eventCaptor.capture());
         
         ContractProcessingEvent capturedEvent = eventCaptor.getValue();
         assertEquals(contractId, capturedEvent.getContractId());

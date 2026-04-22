@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.documind.pipeline.worker.ContractProcessingWorkerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.326 s -- in com.documind.pipeline.worker.ContractProcessingWorkerTest
