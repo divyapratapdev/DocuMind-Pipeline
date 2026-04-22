@@ -1,7 +1,6 @@
 C:\Users\adars\OneDrive\Desktop\DocuMind Enterprise AI Contract & Compliance Pipeline\src\main\java\com\documind\pipeline\ai\GroqAiClient.java
 C:\Users\adars\OneDrive\Desktop\DocuMind Enterprise AI Contract & Compliance Pipeline\src\main\java\com\documind\pipeline\api\ContractController.java
 C:\Users\adars\OneDrive\Desktop\DocuMind Enterprise AI Contract & Compliance Pipeline\src\main\java\com\documind\pipeline\config\RedisConfig.java
-C:\Users\adars\OneDrive\Desktop\DocuMind Enterprise AI Contract & Compliance Pipeline\src\main\java\com\documind\pipeline\config\S3Config.java
 C:\Users\adars\OneDrive\Desktop\DocuMind Enterprise AI Contract & Compliance Pipeline\src\main\java\com\documind\pipeline\DocuMindApplication.java
 C:\Users\adars\OneDrive\Desktop\DocuMind Enterprise AI Contract & Compliance Pipeline\src\main\java\com\documind\pipeline\domain\Contract.java
 C:\Users\adars\OneDrive\Desktop\DocuMind Enterprise AI Contract & Compliance Pipeline\src\main\java\com\documind\pipeline\domain\ContractProcessingEvent.java
