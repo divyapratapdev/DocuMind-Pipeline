@@ -22,11 +22,7 @@ spring:
   # Redis
   data:
     redis:
-      host: ${SPRING_REDIS_HOST:localhost}
-      port: ${SPRING_REDIS_PORT:6379}
-      password: ${SPRING_REDIS_PASSWORD:}
-      ssl:
-        enabled: ${SPRING_REDIS_SSL_ENABLED:false}
+      url: ${SPRING_REDIS_URL:redis://localhost:6379}
 
   # Kafka
   kafka:
