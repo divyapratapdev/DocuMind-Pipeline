@@ -16,9 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 
+import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -42,7 +43,7 @@ class ContractControllerTest {
         // Arrange
         UUID orgId = UUID.randomUUID();
         UUID contractId = UUID.randomUUID();
-        
+
         MockMultipartFile mockFile = new MockMultipartFile(
                 "file",
                 "test-document.pdf",
@@ -56,28 +57,53 @@ class ContractControllerTest {
                 .status(ContractStatus.PENDING)
                 .build();
 
-        // Save #1 (Initial Return)
         when(contractRepository.save(any(Contract.class))).thenReturn(mockContract);
-        // S3 Upload Returns Key
         when(documentStorageService.uploadDocument(any(), any())).thenReturn(contractId + "/test-document.pdf");
 
         // Act
-        ResponseEntity<String> response = contractController.uploadContract(mockFile, orgId);
+        ResponseEntity<Map<String, Object>> response = contractController.uploadContract(mockFile, orgId);
 
         // Assert
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
-        
+        assertNotNull(response.getBody());
+        assertEquals("PENDING", response.getBody().get("status"));
+        assertEquals(contractId.toString(), response.getBody().get("contractId"));
+
         // Verify DB Save occurred twice (initial + update with s3 key)
         verify(contractRepository, times(2)).save(any(Contract.class));
         verify(documentStorageService, times(1)).uploadDocument(mockFile, contractId);
-        
-        // Verify Kafka event pushed correctly
+
+        // Verify message broker event pushed correctly
         ArgumentCaptor<ContractProcessingEvent> eventCaptor = ArgumentCaptor.forClass(ContractProcessingEvent.class);
         verify(messageBroker, times(1)).sendProcessingEvent(eventCaptor.capture());
-        
+
         ContractProcessingEvent capturedEvent = eventCaptor.getValue();
         assertEquals(contractId, capturedEvent.getContractId());
         assertEquals(orgId, capturedEvent.getOrganizationId());
         assertEquals(contractId + "/test-document.pdf", capturedEvent.getS3ObjectKey());
+    }
+
+    @Test
+    void testUploadContract_EmptyFile_Returns400() {
+        UUID orgId = UUID.randomUUID();
+        MockMultipartFile emptyFile = new MockMultipartFile("file", "empty.pdf", "application/pdf", new byte[0]);
+
+        ResponseEntity<Map<String, Object>> response = contractController.uploadContract(emptyFile, orgId);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("File is empty", response.getBody().get("error"));
+        verify(contractRepository, never()).save(any());
+    }
+
+    @Test
+    void testUploadContract_NonPdfFile_Returns400() {
+        UUID orgId = UUID.randomUUID();
+        MockMultipartFile txtFile = new MockMultipartFile("file", "document.txt", "text/plain", "text content".getBytes());
+
+        ResponseEntity<Map<String, Object>> response = contractController.uploadContract(txtFile, orgId);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Only PDF files are accepted", response.getBody().get("error"));
+        verify(contractRepository, never()).save(any());
     }
 }
