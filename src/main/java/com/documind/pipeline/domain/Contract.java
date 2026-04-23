@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "contracts", indexes = {
-    @Index(name = "idx_extracted_data", columnList = "extracted_data", unique = false)
-})
+@Table(name = "contracts")
 @Getter
 @Setter
 @NoArgsConstructor

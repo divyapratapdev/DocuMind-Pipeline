@@ -28,11 +28,14 @@ public class S3Config {
 
     @Bean
     public S3Client s3Client() {
-        return S3Client.builder()
+        S3ClientBuilder builder = S3Client.builder()
                 .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey)))
-                .endpointOverride(URI.create(endpoint))
-                .forcePathStyle(true) // Required for MinIO
-                .build();
+                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey)));
+        
+        if (endpoint != null && !endpoint.isEmpty() && !endpoint.contains("amazonaws.com")) {
+            builder.endpointOverride(URI.create(endpoint))
+                   .forcePathStyle(true);
+        }
+        return builder.build();
     }
 }
