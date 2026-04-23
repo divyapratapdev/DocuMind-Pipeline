@@ -61,3 +61,10 @@ logging:
   level:
     com.documind.pipeline: DEBUG
     org.springframework.kafka: INFO
+
+# Swagger UI / OpenAPI
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
