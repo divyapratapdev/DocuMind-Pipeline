@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: documind-pipeline
+  
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
   # PostgreSQL
   datasource:
