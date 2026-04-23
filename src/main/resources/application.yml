@@ -1,10 +1,10 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
     name: documind-pipeline
-  
+
   servlet:
     multipart:
       max-file-size: 50MB
@@ -16,13 +16,18 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:documind_user}
     password: ${SPRING_DATASOURCE_PASSWORD:documind_password}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 30000
   jpa:
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
-    show-sql: true
+    show-sql: false
+    open-in-view: false
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   # Redis
   data:
@@ -45,16 +50,20 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
-# AWS S3 (Cloudflare R2 / MinIO)
+# Message Broker Selection (redis or kafka)
+messaging:
+  broker: ${MESSAGING_BROKER:redis}
+
+# AWS S3 / MinIO
 aws:
   s3:
     endpoint: ${AWS_S3_ENDPOINT:http://localhost:9000}
     access-key: ${AWS_ACCESS_KEY_ID:admin}
     secret-key: ${AWS_SECRET_ACCESS_KEY:password123}
     bucket-name: ${AWS_BUCKET_NAME:contracts-bucket}
-    region: ${AWS_REGION:auto}
+    region: ${AWS_REGION:us-east-1}
 
-# Groq Config
+# Groq AI Config
 groq:
   api:
     url: https://api.groq.com/openai/v1/chat/completions
@@ -65,7 +74,7 @@ groq:
 logging:
   level:
     com.documind.pipeline: DEBUG
-    org.springframework.kafka: INFO
+    org.springframework.kafka: WARN
 
 # Swagger UI / OpenAPI
 springdoc:
