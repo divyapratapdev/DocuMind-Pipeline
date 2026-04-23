@@ -65,6 +65,15 @@ public class ContractProcessingWorker {
 
         } catch (Exception e) {
             log.error("Fatal error inside processing worker: {}", e.getMessage(), e);
+            try {
+                ContractProcessingEvent event = objectMapper.readValue(eventPayload, ContractProcessingEvent.class);
+                contractRepository.findById(event.getContractId()).ifPresent(contract -> {
+                    contract.setStatus(ContractStatus.FAILED);
+                    contractRepository.save(contract);
+                });
+            } catch (Exception parseEx) {
+                log.error("Failed to parse event payload for FAILED status update", parseEx);
+            }
         }
     }
 }
