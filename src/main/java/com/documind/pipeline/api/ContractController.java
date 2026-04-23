@@ -62,4 +62,11 @@ public class ContractController {
         log.info("Dispatched async processing event. Return 202. ID: {}", initialContract.getId());
         return ResponseEntity.accepted().body("Contract upload accepted. Processing asynchronously: " + initialContract.getId());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Contract> getContractStatus(@PathVariable UUID id) {
+        return contractRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
