@@ -25,7 +25,7 @@ public class ContractController {
     private final DocumentStorageService documentStorageService;
     private final MessageBroker messageBroker;
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadContract(
             @RequestParam("file") MultipartFile file,
             @RequestParam("organizationId") UUID organizationId) {
